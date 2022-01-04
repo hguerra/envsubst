@@ -106,12 +106,30 @@ func (t *Template) evalFunc(s *state, node *parse.FuncNode) error {
 	s.writer = w
 	s.node = node
 
-	v := s.mapper(node.Param)
+	v := ""
+
+	// check secret manager
+	secretManagerKey := getSecretManagerKey(node)
+	if secretManagerKey != "" {
+		v = s.mapper(secretManagerKey)
+	} else {
+		v = s.mapper(node.Param)
+	}
 
 	fn := lookupFunc(node.Name, len(args))
 
 	_, err := io.WriteString(s.writer, fn(v, args...))
 	return err
+}
+
+// getSecretManagerKey returns the original key of secret manager.
+func getSecretManagerKey(node *parse.FuncNode) string {
+	value := ""
+	if node.Param == "gcp" && node.Name == ":" && node.Args != nil && len(node.Args) > 1 {
+		secondArg := node.Args[1].(*parse.TextNode)
+		value = "gcp:secretmanager:" + secondArg.Value
+	}
+	return value
 }
 
 // lookupFunc returns the parameters substitution function by name. If the

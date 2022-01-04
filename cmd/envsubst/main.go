@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/drone/envsubst/v2"
+	"github.com/hguerra/envsubst/v2"
 )
 
 func main() {

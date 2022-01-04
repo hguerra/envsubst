@@ -1,6 +1,8 @@
 package envsubst
 
-import "os"
+import (
+	"github.com/hguerra/envsubst/v2/provider"
+)
 
 // Eval replaces ${var} in the string based on the mapping function.
 func Eval(s string, mapping func(string) string) (string, error) {
@@ -15,5 +17,5 @@ func Eval(s string, mapping func(string) string) (string, error) {
 // current environment variables. References to undefined variables are
 // replaced by the empty string.
 func EvalEnv(s string) (string, error) {
-	return Eval(s, os.Getenv)
+	return Eval(s, provider.Get)
 }

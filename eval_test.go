@@ -205,6 +205,12 @@ func TestExpand(t *testing.T) {
 			input:  `${stringZ/./}`,
 			output: "foobar",
 		},
+		// google secret manager
+		{
+			params: map[string]string{"gcp:secretmanager:projects/xxx/secrets/mykey/versions/1": "myvar"},
+			input:  "${gcp:secretmanager:projects/xxx/secrets/mykey/versions/1}",
+			output: "myvar",
+		},
 	}
 
 	for _, expr := range expressions {

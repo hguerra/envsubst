@@ -3,8 +3,13 @@
 `envsubst` is a Go package for expanding variables in a string using `${var}` syntax.
 Includes support for bash string replacement functions. **This fork allows you to search Google Secret Manager variables**.
 
+## Documentation
+
+[Documentation can be found on GoDoc][doc].
+
+
 ```
-envsubst < input.tmpl > output.txt
+envsubst -no-empty < input.tmpl > output.txt
 ```
 
 **Example with Google Secret Manager**
@@ -15,14 +20,13 @@ Hello ${USER}
 My secret from Google: ${gcp:secretmanager:projects/xxx/secrets/mykey/versions/1}
 ```
 
-command:
-```
-envsubst < input.tmpl > output.txt
-```
+#### Imposing restrictions
 
-## Documentation
+The flags and their restrictions are:
 
-[Documentation can be found on GoDoc][doc].
+|__Option__     | __Meaning__    | __Type__ | __Default__  |
+| ------------| -------------- | ------------ | ------------ |
+|`-no-empty`  | fail if a variable is set but empty | `flag` | `false`
 
 ## Supported Functions
 

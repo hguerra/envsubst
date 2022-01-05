@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -11,6 +12,14 @@ import (
 )
 
 var secretManagerPrefix = "gcp:secretmanager:"
+
+func GetRequired(key string) string {
+	value := Get(key)
+	if value == "" {
+		log.Fatalf("Variable '%v' is empty", key)
+	}
+	return value
+}
 
 func Get(key string) string {
 	if isSecretManager(key) {

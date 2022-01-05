@@ -32,5 +32,8 @@ build: clean
 run:
 	go run $(MAIN_FILE)
 
-example:
-	echo "Hello $$USER" | go run $(MAIN_FILE)
+example_stdin:
+	go run $(MAIN_FILE) < example-input.tmpl
+
+example_args:
+	go run $(MAIN_FILE) -no-empty < example-input.tmpl
